@@ -1,8 +1,7 @@
-# Project Name
-whisper-mandarin-pitch
+# whisper-mandarin-pitch
+[LoRA Fine-Tuning with Pitch Augmented Features]
 
 ## Description
-[LoRA Fine-Tuning with Pitch Augmented Features]
 This project trains and evaluates an OpenAI Whisper model with additional pitch (f0) features to improve speech recognition accuracy.
 
 ## Repository Structure
