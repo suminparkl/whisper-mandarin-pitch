@@ -1,0 +1,25 @@
+model_name_or_path: "openai/whisper-small"
+output_dir: "pitch_models_small_pitch/"
+per_device_train_batch_size: 8
+gradient_accumulation_steps: 2
+learning_rate: 5e-4
+weight_decay: 0.01
+warmup_steps: 500
+num_train_epochs: 10
+per_device_eval_batch_size: 8
+generation_max_length: 128
+logging_steps: 100
+lora_r: 32
+lora_alpha: 64
+lora_dropout: 0.05
+language: "zh"
+task: "transcribe"
+
+
+csv_dir: "output_csv"          
+audio_download_dir: "audio_files"  
+data_limit: 10                             
+prepared_dataset_path: "common_voice_dataset" 
+
+
+num_proc: 4
