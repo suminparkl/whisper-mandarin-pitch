@@ -31,9 +31,7 @@ git clone https://github.com/suminparkl/whisper-mandarin-pitch.git
 cd whisper-mandarin-pitch
 ```
 
-@misc{fastwhisperfinetuning,
-  author = {Vaibhavs10},
-  title = {Fast Whisper Fine-Tuning},
-  year = {2023},
-  url = {https://github.com/Vaibhavs10/fast-whisper-finetuning}
-}
+### References
+
+This project was inspired by and references [Vaibhavs10's fast-whisper-finetuning](https://github.com/Vaibhavs10/fast-whisper-finetuning).
+We have incorporated some of the ideas and methodologies from their repository to enhance this implementation.
