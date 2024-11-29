@@ -29,3 +29,11 @@ First, clone the repository:
 ```bash
 git clone https://github.com/suminparkl/whisper-mandarin-pitch.git
 cd whisper-mandarin-pitch
+```
+
+@misc{fastwhisperfinetuning,
+  author = {Vaibhavs10},
+  title = {Fast Whisper Fine-Tuning},
+  year = {2023},
+  url = {https://github.com/Vaibhavs10/fast-whisper-finetuning}
+}
