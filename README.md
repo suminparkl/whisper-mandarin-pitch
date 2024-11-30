@@ -31,7 +31,7 @@ git clone https://github.com/suminparkl/whisper-mandarin-pitch.git
 cd whisper-mandarin-pitch
 ```
 
-### References
+## References
 
 This project was inspired by and references [Vaibhavs10's fast-whisper-finetuning](https://github.com/Vaibhavs10/fast-whisper-finetuning).
-We have incorporated some of the ideas and methodologies from their repository to enhance this implementation.
+I have incorporated some of the ideas and methodologies from their repository to enhance this implementation.
