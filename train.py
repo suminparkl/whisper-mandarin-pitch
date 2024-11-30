@@ -10,6 +10,7 @@ from transformers import (
 )
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 import evaluate
+from datasets import load_from_disk
 
 from model_utils import modify_first_conv_layer, SavePeftModelCallback
 from data_utils import (
@@ -17,8 +18,7 @@ from data_utils import (
     prepare_dataset,
     DataCollatorSpeechSeq2SeqWithPadding,
 )
-from data_preparation import prepare_common_voice_dataset
-
+# Remove the import of prepare_common_voice_dataset since we're loading the dataset from disk
 
 def main():
     # Parse command-line arguments
@@ -87,14 +87,14 @@ def main():
     )
     model.config.pad_token_id = processor.tokenizer.pad_token_id
 
-    # Prepare dataset using data_preparation.py
-    common_voice = prepare_common_voice_dataset(config)
+    # Load the prepared dataset
+    common_voice = load_from_disk(config.get("prepared_dataset_path", "common_voice_dataset"))
 
     # Prepare dataset by adding f0 features and tokenizing labels
     common_voice = common_voice.map(
         lambda batch: prepare_dataset(batch, feature_extractor, tokenizer),
         remove_columns=common_voice["train"].column_names,
-        num_proc=config.get("num_proc", 4),
+        num_proc=1,  # Set num_proc=1 for debugging; increase after confirming it works
         load_from_cache_file=False,
     )
 
@@ -120,7 +120,6 @@ def main():
     # Start training
     model.config.use_cache = False  # Remove cache-related warnings
     trainer.train()
-
 
 if __name__ == "__main__":
     main()
