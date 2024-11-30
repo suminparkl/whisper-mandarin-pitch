@@ -7,6 +7,7 @@ from glob import glob
 from tqdm import tqdm
 import yaml
 import argparse
+import numpy as np  
 
 # Function to download audio files
 def download_audio(url, save_dir):
@@ -68,6 +69,16 @@ def prepare_dataset_entry(batch):
     # Load audio and resample to 16000 Hz
     audio_array, sampling_rate = librosa.load(batch["audio_path"], sr=16000)
 
+    # Ensure audio_array is a NumPy array
+    if not isinstance(audio_array, np.ndarray):
+        audio_array = np.array(audio_array)
+        # print("Converted audio_array to NumPy array.")
+
+    # Check if audio_array is empty
+    if audio_array.size == 0:
+        print(f"Warning: Audio data in {batch['audio_path']} is empty. Skipping this file.")
+        return None  # Skip this example
+
     # Create audio dictionary
     batch["audio"] = {
         "path": batch["audio_path"],
@@ -79,7 +90,6 @@ def prepare_dataset_entry(batch):
     batch["sentence"] = batch["tc_text"]
 
     return batch
-
 
 # Main function to prepare the dataset
 def prepare_common_voice_dataset(config):
@@ -104,8 +114,14 @@ def prepare_common_voice_dataset(config):
     common_voice = common_voice.map(
         prepare_dataset_entry,
         desc="Preparing dataset",
-        load_from_cache_file=False
+        load_from_cache_file=False,
+        remove_columns=['fi_sound_filepath', 'tc_text'],
+        batched=False,
+        num_proc=4,  # Use single process for debugging
     )
+
+    # Remove None entries (examples that were skipped)
+    common_voice = common_voice.filter(lambda x: x is not None)
 
     # Optionally, save the dataset to disk for reuse
     common_voice.save_to_disk(config.get("prepared_dataset_path", "common_voice_dataset"))
